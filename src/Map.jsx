@@ -2,8 +2,13 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 import { Box } from 'grommet';
 
+import myIcon from './myIcon';
+import { findCenter, generateLocations } from './utils/locations';
+
 function Map() {
   const [geolocation, setGeolocation] = useState();
+  const [locations, setLocations] = useState([]);
+  const [center, setCenter] = useState(geolocation);
   const containerRef = useRef();
   const mapContainerRef = useRef();
 
@@ -43,13 +48,29 @@ function Map() {
 
   useLayoutEffect(adjustSize);
 
+  // Generate random locations
+  useEffect(() => {
+    const nextLocations = generateLocations();
+    console.log('nextLocations', nextLocations);
+    setLocations(nextLocations);
+  }, []);
+
+  // Find center of locations
+  useEffect(() => {
+    if (locations.length) {
+      const nextCenter = findCenter(locations);
+      console.log('nextCenter', nextCenter);
+      setCenter(nextCenter);
+    }
+  }, [locations]);
+
   return (
     <Box ref={containerRef} flex background="background-contrast">
       {geolocation && (
         <MapContainer
           id="map"
           ref={mapContainerRef}
-          center={geolocation}
+          center={center}
           zoom={6}
           scrollWheelZoom={false}
         >
@@ -67,6 +88,18 @@ function Map() {
               {geolocation[0].toFixed(2)} {geolocation[1].toFixed(2)}
             </Popup>
           </Marker>
+          {locations.map((location, index) => (
+            location && <Marker key={index} position={location}>
+              <Popup>
+                {location[0].toFixed(2)} {location[1].toFixed(2)}
+              </Popup>
+            </Marker>
+          ))}
+          {center && <Marker position={center} icon={myIcon}>
+            <Popup>
+              {center[0].toFixed(2)} {center[1].toFixed(2)}
+            </Popup>
+          </Marker>}
         </MapContainer>
       )}
     </Box>
