@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
+import { MapContainer, Marker, Popup, Rectangle, TileLayer, ZoomControl } from 'react-leaflet';
 import { Box } from 'grommet';
 
 import myIcon from './myIcon';
@@ -100,6 +100,7 @@ function Map() {
               {center[0].toFixed(2)} {center[1].toFixed(2)}
             </Popup>
           </Marker>}
+          <Rectangle bounds={locations} />
         </MapContainer>
       )}
     </Box>
