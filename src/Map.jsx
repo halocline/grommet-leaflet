@@ -3,12 +3,13 @@ import { MapContainer, Marker, Popup, Rectangle, TileLayer, ZoomControl } from '
 import { Box } from 'grommet';
 
 import myIcon from './myIcon';
-import { findCenter, generateLocations } from './utils/locations';
+import { findCenterOfGravity, generateLocations } from './utils/locations';
 
 function Map() {
   const [geolocation, setGeolocation] = useState();
   const [locations, setLocations] = useState([]);
   const [center, setCenter] = useState(geolocation);
+  const [zoom, setZoom] = useState(6);
   const containerRef = useRef();
   const mapContainerRef = useRef();
 
@@ -58,7 +59,7 @@ function Map() {
   // Find center of locations
   useEffect(() => {
     if (locations.length) {
-      const nextCenter = findCenter(locations);
+      const nextCenter = findCenterOfGravity(locations);
       console.log('nextCenter', nextCenter);
       setCenter(nextCenter);
     }
@@ -71,7 +72,7 @@ function Map() {
           id="map"
           ref={mapContainerRef}
           center={center}
-          zoom={6}
+          zoom={zoom}
           scrollWheelZoom={false}
         >
           {/* <TileLayer

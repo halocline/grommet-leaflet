@@ -11,7 +11,7 @@ export function generateLocations() {
 
 // Given an array of coordinates, find the center of the
 // coordinates and return the center as an array.
-export function findCenter(locations) {
+export function findCenterOfGravity(locations) {
   var center = [0, 0];
   for (var i = 0; i < locations.length; i++) {
     center[0] += locations[i][0];
