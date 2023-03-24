@@ -14,7 +14,7 @@ import Map from "./Map";
 function App() {
   return (
     <Grommet theme={hpe} full>
-      <Page kind="full" fill>
+      <Page kind="wide" fill>
         <GlobalHeader />
         <PageContent flex>
           <PageHeader title="Map" />
