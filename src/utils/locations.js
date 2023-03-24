@@ -21,3 +21,26 @@ export function findCenterOfGravity(locations) {
   center[1] /= locations.length;
   return center;
 }
+
+// Given an array of coordinates, find the bounding box
+// of the coordinates and return the bounding box as an
+// array.
+export function findBoundingBox(locations) {
+  var bounds = [
+    [Infinity, Infinity],
+    [-Infinity, -Infinity],
+  ];
+  for (var i = 0; i < locations.length; i++) {
+    bounds[0][0] = Math.min(bounds[0][0], locations[i][0]);
+    bounds[0][1] = Math.min(bounds[0][1], locations[i][1]);
+    bounds[1][0] = Math.max(bounds[1][0], locations[i][0]);
+    bounds[1][1] = Math.max(bounds[1][1], locations[i][1]);
+  }
+  return bounds;
+}
+
+// Given a bounding box, find the center of the bounding
+// box and return the center as an array.
+export function findCenter(bounds) {
+  return [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2];
+}

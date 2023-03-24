@@ -2,13 +2,14 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, Rectangle, TileLayer, ZoomControl } from 'react-leaflet';
 import { Box } from 'grommet';
 
-import myIcon from './myIcon';
-import { findCenterOfGravity, generateLocations } from './utils/locations';
+import {centerGravityIcon, centerIcon} from './myIcon';
+import { findBoundingBox, findCenter, findCenterOfGravity, generateLocations } from './utils/locations';
 
 function Map() {
   const [geolocation, setGeolocation] = useState();
   const [locations, setLocations] = useState([]);
   const [center, setCenter] = useState(geolocation);
+  const [centerOfGravity, setCenterOfGravity] = useState(geolocation);
   const [zoom, setZoom] = useState(6);
   const containerRef = useRef();
   const mapContainerRef = useRef();
@@ -52,16 +53,22 @@ function Map() {
   // Generate random locations
   useEffect(() => {
     const nextLocations = generateLocations();
-    console.log('nextLocations', nextLocations);
     setLocations(nextLocations);
   }, []);
 
   // Find center of locations
   useEffect(() => {
     if (locations.length) {
-      const nextCenter = findCenterOfGravity(locations);
-      console.log('nextCenter', nextCenter);
+      const nextCenter = findCenter(findBoundingBox(locations));
       setCenter(nextCenter);
+    }
+  }, [locations]);
+
+  // Find center of gravity of locations
+  useEffect(() => {
+    if (locations.length) {
+      const nextCenterOfGravity = findCenterOfGravity(locations);
+      setCenterOfGravity(nextCenterOfGravity);
     }
   }, [locations]);
 
@@ -96,12 +103,18 @@ function Map() {
               </Popup>
             </Marker>
           ))}
-          {center && <Marker position={center} icon={myIcon}>
+          {center && <Marker position={center} icon={centerIcon}>
             <Popup>
               {center[0].toFixed(2)} {center[1].toFixed(2)}
             </Popup>
           </Marker>}
+          {centerOfGravity && <Marker position={centerOfGravity} icon={centerGravityIcon}>
+            <Popup>
+              {centerOfGravity[0].toFixed(2)} {centerOfGravity[1].toFixed(2)}
+            </Popup>
+          </Marker>}
           <Rectangle bounds={locations} />
+          <Rectangle bounds={findBoundingBox(locations)} pathOptions={{color: 'purple'}}/>
         </MapContainer>
       )}
     </Box>

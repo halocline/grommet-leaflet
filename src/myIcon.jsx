@@ -5,17 +5,28 @@ import { divIcon } from 'leaflet';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-const MyIcon = () => {
+const CenterGravityIcon = () => {
   return (  
     <Location color='red'/>
   );
 };
 
-const myIcon = divIcon({
-  html: ReactDOMServer.renderToString(<MyIcon />),
+export const centerGravityIcon = divIcon({
+  html: ReactDOMServer.renderToString(<CenterGravityIcon />),
   iconSize: [24, 24],
   className: 'my-icon',
   // iconAnchor: [10, 10],
 });
 
-export default myIcon;
+const CenterIcon = () => {
+  return (  
+    <Location color='blue'/>
+  );
+};
+
+export const centerIcon = divIcon({
+  html: ReactDOMServer.renderToString(<CenterIcon />),
+  iconSize: [24, 24],
+  className: 'my-icon',
+  // iconAnchor: [10, 10],
+});
