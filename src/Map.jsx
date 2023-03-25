@@ -2,6 +2,8 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, Rectangle, TileLayer, ZoomControl } from 'react-leaflet';
 import { Box, Text } from 'grommet';
 
+import MarkerClusterGroup from './MarkerClusterGroup';
+import Square from './Sqaure';
 import {centerGravityIcon, grommetIcon} from './myIcon';
 import { findBoundingBox, findCenter, findCenterOfGravity, generateLocations } from './utils/locations';
 
@@ -98,6 +100,7 @@ function Map() {
               {geolocation[0].toFixed(2)} {geolocation[1].toFixed(2)}
             </Popup>
           </Marker>
+          <MarkerClusterGroup>
           {locations.map((location, index) => (
             location && <Marker key={index} position={location}>
               <Popup>
@@ -105,11 +108,12 @@ function Map() {
               </Popup>
             </Marker>
           ))}
-          {center && <Marker position={center} icon={grommetIcon({})}>
+          </MarkerClusterGroup>
+          {/* {center && <Marker position={center} icon={grommetIcon({})}>
             <Popup>
               {center[0].toFixed(2)} {center[1].toFixed(2)}
             </Popup>
-          </Marker>}
+          </Marker>} */}
           {centerOfGravity && <Marker position={centerOfGravity} icon={centerGravityIcon}>
             <Popup>
               {centerOfGravity[0].toFixed(2)} {centerOfGravity[1].toFixed(2)}
@@ -117,6 +121,7 @@ function Map() {
           </Marker>}
           <Rectangle bounds={locations} />
           <Rectangle bounds={findBoundingBox(locations)} pathOptions={{color: 'purple'}}/>
+          <Square center={center} size="100000" />
         </MapContainer>
       )}
     </Box>
