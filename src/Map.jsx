@@ -1,8 +1,8 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, Popup, Rectangle, TileLayer, ZoomControl } from 'react-leaflet';
-import { Box } from 'grommet';
+import { Box, Text } from 'grommet';
 
-import {centerGravityIcon, centerIcon} from './myIcon';
+import {centerGravityIcon, grommetIcon} from './myIcon';
 import { findBoundingBox, findCenter, findCenterOfGravity, generateLocations } from './utils/locations';
 
 function Map() {
@@ -73,6 +73,8 @@ function Map() {
   }, [locations]);
 
   return (
+    <>
+    <Box><Text>Zoom: {zoom}</Text></Box>
     <Box ref={containerRef} flex background="background-contrast">
       {geolocation && (
         <MapContainer
@@ -103,7 +105,7 @@ function Map() {
               </Popup>
             </Marker>
           ))}
-          {center && <Marker position={center} icon={centerIcon}>
+          {center && <Marker position={center} icon={grommetIcon({})}>
             <Popup>
               {center[0].toFixed(2)} {center[1].toFixed(2)}
             </Popup>
@@ -118,6 +120,7 @@ function Map() {
         </MapContainer>
       )}
     </Box>
+    </>
   );
 }
 

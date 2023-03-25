@@ -1,5 +1,6 @@
 // Using grommet-icons, generate a new icon component
 // compatible with react-leaflet icons
+import { Box } from 'grommet';
 import { Location } from 'grommet-icons';
 import { divIcon } from 'leaflet';
 import React from 'react';
@@ -28,5 +29,11 @@ export const centerIcon = divIcon({
   html: ReactDOMServer.renderToString(<CenterIcon />),
   iconSize: [24, 24],
   className: 'my-icon',
-  // iconAnchor: [10, 10],
 });
+
+export const grommetIcon = ({children}) => {
+  return divIcon({
+    html: ReactDOMServer.renderToString(<Box border background='brand' pad='small' flex round>{children}</Box>),
+    className: 'my-icon',
+  })
+}
