@@ -54,7 +54,7 @@ function Map() {
 
   // Generate random locations
   useEffect(() => {
-    const nextLocations = generateLocations();
+    const nextLocations = generateLocations(250);
     setLocations(nextLocations);
   }, []);
 
@@ -109,19 +109,17 @@ function Map() {
             </Marker>
           ))}
           </MarkerClusterGroup>
-          {/* {center && <Marker position={center} icon={grommetIcon({})}>
+          {center && <Marker position={center} icon={grommetIcon({})}>
             <Popup>
               {center[0].toFixed(2)} {center[1].toFixed(2)}
             </Popup>
-          </Marker>} */}
+          </Marker>}
           {centerOfGravity && <Marker position={centerOfGravity} icon={centerGravityIcon}>
             <Popup>
               {centerOfGravity[0].toFixed(2)} {centerOfGravity[1].toFixed(2)}
             </Popup>
           </Marker>}
-          <Rectangle bounds={locations} />
-          <Rectangle bounds={findBoundingBox(locations)} pathOptions={{color: 'purple'}}/>
-          <Square center={center} size="100000" />
+          <Rectangle bounds={locations} pathOptions={{color: 'grey'}} />
         </MapContainer>
       )}
     </Box>
