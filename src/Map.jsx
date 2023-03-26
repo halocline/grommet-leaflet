@@ -3,8 +3,7 @@ import { MapContainer, Marker, Popup, Rectangle, TileLayer, ZoomControl } from '
 import { Box, Text } from 'grommet';
 
 import MarkerClusterGroup from './MarkerClusterGroup';
-import Square from './Sqaure';
-import {centerGravityIcon, grommetIcon} from './myIcon';
+import GrommetMarker from './GrommetMarker';
 import { findBoundingBox, findCenter, findCenterOfGravity, generateLocations } from './utils/locations';
 
 function Map() {
@@ -75,8 +74,6 @@ function Map() {
   }, [locations]);
 
   return (
-    <>
-    <Box><Text>Zoom: {zoom}</Text></Box>
     <Box ref={containerRef} flex background="background-contrast">
       {geolocation && (
         <MapContainer
@@ -109,21 +106,20 @@ function Map() {
             </Marker>
           ))}
           </MarkerClusterGroup>
-          {center && <Marker position={center} icon={grommetIcon({})}>
+          {center && <GrommetMarker position={center} >
             <Popup>
               {center[0].toFixed(2)} {center[1].toFixed(2)}
             </Popup>
-          </Marker>}
-          {centerOfGravity && <Marker position={centerOfGravity} icon={centerGravityIcon}>
+          </GrommetMarker>}
+          {centerOfGravity && <GrommetMarker position={centerOfGravity} >
             <Popup>
               {centerOfGravity[0].toFixed(2)} {centerOfGravity[1].toFixed(2)}
             </Popup>
-          </Marker>}
+          </GrommetMarker>}
           <Rectangle bounds={locations} pathOptions={{color: 'grey'}} />
         </MapContainer>
       )}
     </Box>
-    </>
   );
 }
 
